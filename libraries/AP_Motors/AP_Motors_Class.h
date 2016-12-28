@@ -165,9 +165,13 @@ protected:
         uint8_t armed              : 1;    // 0 if disarmed, 1 if armed
         uint8_t frame_orientation  : 4;    // PLUS_FRAME 0, X_FRAME 1, V_FRAME 2, H_FRAME 3, NEW_PLUS_FRAME 10, NEW_X_FRAME, NEW_V_FRAME, NEW_H_FRAME
         uint8_t interlock          : 1;    // 1 if the motor interlock is enabled (i.e. motors run), 0 if disabled (motors don't run)
+	uint8_t motor_fail	   : 1;    // 1 when a simulated motor-failure is invoked
     } _flags;
 
     // internal variables
+
+    AP_Int8             _motor_fail_number;     // Controls which motor will slow when simulating a motor-failure
+    AP_Int8             _motor_fail_percent;    // Controls how much slow (as a percentage of it's regular speed) the failed motor will run (0 = stopped, 100 = normal)
     uint16_t            _loop_rate;                 // rate in Hz at which output() function is called (normally 400hz)
     uint16_t            _speed_hz;                  // speed in hz to send updates to motors
     float               _roll_in;                   // desired roll control from attitude controllers, -1 ~ +1

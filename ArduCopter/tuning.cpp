@@ -206,6 +206,11 @@ void Copter::tuning() {
         break;
 #endif
 
+    case TUNING_MOTOR_FAIL_PCT:
+        motors.set_motor_fail_pct( g.rc_6.get_control_in() / 10);
+        break;
+    
+    
      case TUNING_RATE_YAW_FILT:
          attitude_control.get_rate_yaw_pid().filt_hz(tuning_value);
          break;

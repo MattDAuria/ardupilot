@@ -137,6 +137,21 @@ const AP_Param::GroupInfo AP_MotorsMulticopter::var_info[] = {
     // @User: Advanced
     AP_GROUPINFO("HOVER_LEARN", 22, AP_MotorsMulticopter, _throttle_hover_learn, HOVER_LEARN_AND_SAVE),
 
+    
+    // @Param: FAIL_NUM
+    // @DisplayName: Motor Fail Number
+    // @Description: Controls which motor will slow when simulating a motor-failure
+    // @Range: 1 8
+    // @User: Advanced
+    AP_GROUPINFO("FAIL_NUM", 30, AP_MotorsMulticopter, _motor_fail_number, 0),
+
+    // @Param: FAIL_PCT
+    // @DisplayName: Motor Fail Percentage
+    // @Description: Controls how much slow (as a percentage of it's regular speed) the failed motor will run (0 = stopped, 100 = normal)
+    // @Values: 0:Stopped, 10:10, 20:20, 30:30, 40:40, 50:Half Speed, 60:60, 70:70, 80:80, 90:90, 100:NormalSpeed
+    // @User: Advanced
+    AP_GROUPINFO("FAIL_PCT", 31, AP_MotorsMulticopter, _motor_fail_percent, 100),
+
     AP_GROUPEND
 };
 
@@ -313,6 +328,20 @@ void AP_MotorsMulticopter::update_battery_resistance()
         }
     }
 }
+
+// set_motor_fail_pct - controls how much slow (as a percentage of it's regular speed) the failed motor will run (0 = stopped, 100 = normal)
+void AP_MotorsMulticopter::set_motor_fail_pct(uint8_t fail_pct)
+{
+    // sanity check fail pct
+    if (fail_pct < 0.0f) {
+        fail_pct = 0.0f;
+    }
+    if (fail_pct > 100) {
+        fail_pct = 100;
+    }
+    _motor_fail_percent = fail_pct;
+}
+
 
 float AP_MotorsMulticopter::get_compensation_gain() const
 {

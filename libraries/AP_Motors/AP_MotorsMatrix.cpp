@@ -117,6 +117,10 @@ void AP_MotorsMatrix::output_to_motors()
             break;
     }
 
+    if ((_motor_fail_number > 0) && (_motor_fail_number < AP_MOTORS_MAX_NUM_MOTORS) && (_motor_fail_percent < 100)) {
+        motor_out[_motor_fail_number-1] = get_pwm_output_min() + ((motor_out[_motor_fail_number-1] - get_pwm_output_min()) * ((float)_motor_fail_percent/100.0f));
+    }
+
     // send output to each motor
     hal.rcout->cork();
     for (i=0; i<AP_MOTORS_MAX_NUM_MOTORS; i++) {

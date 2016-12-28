@@ -49,6 +49,9 @@ public:
     // also sets minimum and maximum pwm values that will be sent to the motors
     void                set_throttle_range(int16_t radio_min, int16_t radio_max);
 
+    // set_motor_fail_pct - controls how much slow (as a percentage of it's regular speed) the failed motor will run (0 = stopped, 100 = normal)
+    void                set_motor_fail_pct(uint8_t fail_pct);
+
     // update estimated throttle required to hover
     void                update_throttle_hover(float dt);
     virtual float       get_throttle_hover() const { return _throttle_hover; }
